@@ -21,7 +21,7 @@ import {
 import { Skeleton } from './ui/skeleton'
 
 export function AccountMenu() {
-  const [isProfileDialogOpened, setIsProfileDialogOpened] = useState(false)
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false)
   const navigate = useNavigate()
 
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
@@ -43,14 +43,11 @@ export function AccountMenu() {
   })
 
   const handleCloseProfileDialog = () => {
-    setIsProfileDialogOpened(false)
+    setIsProfileDialogOpen(false)
   }
 
   return (
-    <Dialog
-      open={isProfileDialogOpened}
-      onOpenChange={setIsProfileDialogOpened}
-    >
+    <Dialog open={isProfileDialogOpen} onOpenChange={setIsProfileDialogOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
