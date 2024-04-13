@@ -1,16 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
 import { BarChartIcon } from 'lucide-react'
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import colors from 'tailwindcss/colors'
 
+import { getPopularProducts } from '@/api/get-popular-products'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
-const data = [
-  { product: 'Margherita', amount: 27 },
-  { product: 'Calabresa', amount: 21 },
-  { product: 'Pepperoni', amount: 20 },
-  { product: 'Mussarela', amount: 19 },
-  { product: 'Sicilian', amount: 17 },
-]
 
 const COLORS = [
   colors.sky['500'],
@@ -21,6 +15,11 @@ const COLORS = [
 ]
 
 export function PopularProductsChart() {
+  const { data: popularProducts = [] } = useQuery({
+    queryKey: ['metrics', 'popular-products'],
+    queryFn: getPopularProducts,
+  })
+
   return (
     <Card className="col-span-3">
       <CardHeader className="pb-8">
@@ -35,7 +34,7 @@ export function PopularProductsChart() {
         <ResponsiveContainer width="100%" height={240}>
           <PieChart style={{ fontSize: 12 }}>
             <Pie
-              data={data}
+              data={popularProducts}
               nameKey="product"
               dataKey="amount"
               cx="50%"
@@ -67,15 +66,17 @@ export function PopularProductsChart() {
                     textAnchor={x > cx ? 'start' : 'end'}
                     dominantBaseline="central"
                   >
-                    {data[index].product.length > 12
-                      ? data[index].product.substring(0, 12).concat('...')
-                      : data[index].product}{' '}
+                    {popularProducts[index].product.length > 12
+                      ? popularProducts[index].product
+                          .substring(0, 12)
+                          .concat('...')
+                      : popularProducts[index].product}{' '}
                     ({value})
                   </text>
                 )
               }}
             >
-              {data.map((_, index) => (
+              {popularProducts.map((_, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
