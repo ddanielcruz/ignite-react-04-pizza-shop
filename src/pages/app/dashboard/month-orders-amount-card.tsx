@@ -5,6 +5,8 @@ import { getMonthOrdersAmount } from '@/api/get-month-orders-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
+import { MetricCardSkeleton } from './metric-card-skeleton'
+
 export function MonthOrdersAmountCard() {
   const { data: monthOrdersAmount } = useQuery({
     queryKey: ['metrics', 'month-orders-amount'],
@@ -19,7 +21,7 @@ export function MonthOrdersAmountCard() {
         <UtensilsIcon className="size-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        {monthOrdersAmount && (
+        {monthOrdersAmount ? (
           <>
             <span className="text-2xl font-bold tracking-tight">
               {monthOrdersAmount.amount}
@@ -36,6 +38,8 @@ export function MonthOrdersAmountCard() {
               relação ao mês passado
             </p>
           </>
+        ) : (
+          <MetricCardSkeleton />
         )}
       </CardContent>
     </Card>

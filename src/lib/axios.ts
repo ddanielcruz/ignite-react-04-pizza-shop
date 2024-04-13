@@ -8,8 +8,12 @@ export const api = axios.create({
 })
 
 if (env.VITE_ENABLE_API_DELAY) {
+  const MAXIMUM_TIMEOUT_IN_MS = 2000
+
   api.interceptors.request.use(async (config) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const timeout = Math.round(Math.random() * MAXIMUM_TIMEOUT_IN_MS)
+    await new Promise((resolve) => setTimeout(resolve, timeout))
+
     return config
   })
 }

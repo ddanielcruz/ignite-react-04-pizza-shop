@@ -5,6 +5,8 @@ import { getMonthCanceledOrdersAmount } from '@/api/get-month-canceled-orders-am
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
+import { MetricCardSkeleton } from './metric-card-skeleton'
+
 export function MonthCanceledOrdersAmountCard() {
   const { data: monthCanceledOrdersAmount } = useQuery({
     queryKey: ['metrics', 'month-canceled-orders-amount'],
@@ -21,7 +23,7 @@ export function MonthCanceledOrdersAmountCard() {
         <DollarSignIcon className="size-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        {monthCanceledOrdersAmount && (
+        {monthCanceledOrdersAmount ? (
           <>
             <span className="text-2xl font-bold tracking-tight">8</span>
             <p className="text-xs text-muted-foreground">
@@ -37,6 +39,8 @@ export function MonthCanceledOrdersAmountCard() {
               em relação ao mês passado
             </p>
           </>
+        ) : (
+          <MetricCardSkeleton />
         )}
       </CardContent>
     </Card>
