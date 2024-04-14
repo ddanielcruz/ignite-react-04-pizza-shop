@@ -41,7 +41,7 @@ export function OrderStatus({ status }: OrderStatusProps) {
   const { label, color } = orderStatusMap[status]
   return (
     <div className="flex items-center gap-2">
-      <span className={cn('size-2 rounded-full', color)}></span>
+      <span className={cn('size-2 rounded-full', color)} data-testid="badge" />
       <span className="font-medium text-muted-foreground">{label}</span>
     </div>
   )
