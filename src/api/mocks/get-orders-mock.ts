@@ -30,10 +30,15 @@ export const getOrdersMock = http.get<never, never, GetOrdersResponse>(
     const pageIndex = searchParams.get('pageIndex')
       ? Number(searchParams.get('pageIndex'))
       : 0
+    const orderId = searchParams.get('orderId')
     const customerName = searchParams.get('customerName')
     const status = searchParams.get('status') as OrderStatusType | undefined
 
     const filteredOrders = orders.filter((order) => {
+      if (orderId && order.orderId !== orderId) {
+        return false
+      }
+
       if (customerName && !order.customerName.includes(customerName)) {
         return false
       }
